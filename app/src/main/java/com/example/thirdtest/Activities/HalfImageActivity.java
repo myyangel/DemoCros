@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Display;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.thirdtest.R;
@@ -13,12 +17,26 @@ import com.example.thirdtest.Utilities.ImageUtility;
 import com.github.nisrulz.sensey.Sensey;
 import com.github.nisrulz.sensey.TouchTypeDetector;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class HalfImageActivity extends AppCompatActivity {
     private String orientation;
     private byte[] base64Image;
     private Bitmap bitmap;
     private boolean side;
     public ImageView imageView ;
+
+    private  int screenWidth;
+    private  int screenHeight;
+    private ImageView imgBird;
+
+    private float birdX;
+    private float birdY;
+
+    private Handler handler = new Handler();
+    private Timer time = new Timer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +50,35 @@ public class HalfImageActivity extends AppCompatActivity {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(bitmap);
 
+        imgBird = (ImageView)findViewById(R.id.imageBird);
+        WindowManager wm = getWindowManager();
+        Display disp =wm.getDefaultDisplay();
+        Point size = new Point();
+        disp.getSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
+
+        time.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        changePos();
+                    }
+                });
+            }
+        },0,20);
+    }
+
+    public void changePos(){
+        birdX += 10;
+        if (imgBird.getX() > screenWidth){
+            birdX = -100.0f;
+            birdX = (float)Math.floor(Math.random()*(screenHeight - imgBird.getWidth()));
+        }
+        imgBird.setX(birdX);
+        imgBird.setY(birdY);
     }
 
     @Override public boolean dispatchTouchEvent(MotionEvent event) {

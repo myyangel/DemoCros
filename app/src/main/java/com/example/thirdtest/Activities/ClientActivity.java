@@ -21,7 +21,7 @@ import com.app.mg.connectionlibraryandroid.Implementations.ConnectMethods;
 import com.example.thirdtest.Interfaces.WebSocketReceiver;
 import com.example.thirdtest.R;
 import com.example.thirdtest.Utilities.ImageUtility;
-import com.example.thirdtest.WebSockets.WebSocketClientImp;
+import com.example.thirdtest.WebSockets.WebSocketClientImp; //Libreria WebSocket
 import com.github.nisrulz.sensey.Sensey;
 import com.github.nisrulz.sensey.TouchTypeDetector;
 
