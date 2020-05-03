@@ -20,10 +20,9 @@
 
     <ImageView
         android:id="@+id/imageBird"
-        android:layout_width="96dp"
-        android:layout_height="113dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:srcCompat="@drawable/bird"
-        tools:layout_editor_absoluteX="66dp"
-        tools:layout_editor_absoluteY="194dp" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

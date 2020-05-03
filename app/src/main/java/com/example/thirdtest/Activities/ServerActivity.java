@@ -20,6 +20,7 @@ import com.example.thirdtest.R;
 import com.example.thirdtest.Utilities.ImageUtility;
 import com.example.thirdtest.WebSockets.WebSocketClientImp;  //Libreria WebSocket
 import com.example.thirdtest.WebSockets.WebSocketServerImp;  //Libreria WebSocket
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,6 +60,8 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         imageView = findViewById(R.id.imageViewServer);
         myIpTextView = findViewById(R.id.text_ip_client);
         myIpTextView.setText(myIpAddress);
+
+
        /* btnShowLeft = findViewById(R.id.show_left);
         btnShowRight = findViewById(R.id.show_right);*/
 /*
@@ -82,10 +85,10 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         });
 */
         btnSubmitImage.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-
-            startActivityForResult(Intent.createChooser(intent,"Pick Image"), 1);
+            //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            //intent.setType("image/*");
+            Picasso.get (). load (R.drawable.mapa) .into (imageView);
+            //startActivityForResult(Intent.createChooser(intent,"Pick Image"), 1);
         });
 
         btnSendImage.setOnClickListener(view -> sendMessageToServer());
@@ -121,6 +124,7 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
     }
 
     private void sendMessageToServer() {
+
         String type = imageView.getDrawable().getClass().getSimpleName();
         if (imageView.getDrawable() != null && type.equals("BitmapDrawable") && wsClient.isOpen()){
             Toast.makeText(getApplicationContext(),"Enviando....",Toast.LENGTH_SHORT).show();
