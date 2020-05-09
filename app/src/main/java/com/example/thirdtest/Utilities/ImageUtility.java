@@ -69,18 +69,23 @@ public class ImageUtility {
 
     }
 
-    public static Bitmap cropImage(Bitmap image, boolean side){
+    public static Bitmap cropImage(Bitmap image, int side){
         int width = image.getWidth();
         int height = image.getHeight();
-        int newWidth = width / 2;
-        int newHeight = height / 2;
+        int newWidth = width / 3;
+       //int newHeight = height / 2;
 
         // recreate the new Bitmap
         Bitmap resizedBitmap;
-        if(side){
+        if(side == 0){
             resizedBitmap= Bitmap.createBitmap(image, 0, 0, newWidth, height);
-        } else{
-            resizedBitmap= Bitmap.createBitmap(image, newWidth, 0, newWidth, height);}
+        } else {
+            if (side == 1) {
+                resizedBitmap = Bitmap.createBitmap(image, newWidth, 0, newWidth, height);
+            } else {
+                resizedBitmap = Bitmap.createBitmap(image, newWidth * 2, 0, newWidth, height);
+            }
+        }
 
         return resizedBitmap;
     }

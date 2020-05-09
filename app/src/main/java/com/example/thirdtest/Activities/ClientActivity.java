@@ -127,7 +127,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                         break;
                     case TouchTypeDetector.SCROLL_DIR_LEFT:
                         if(bitmap != null) {
-                            newBitmap = ImageUtility.cropImage(bitmap, false);
+                            newBitmap = ImageUtility.cropImage(bitmap, 2);
                             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                             imageView.setImageBitmap(newBitmap);
                         }else {
@@ -136,7 +136,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                         break;
                     case TouchTypeDetector.SCROLL_DIR_RIGHT:
                         if(bitmap != null) {
-                         newBitmap = ImageUtility.cropImage(bitmap, true);
+                         newBitmap = ImageUtility.cropImage(bitmap, 0);
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         imageView.setImageBitmap(newBitmap);
                         }else {

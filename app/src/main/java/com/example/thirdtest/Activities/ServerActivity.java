@@ -48,6 +48,7 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
     private final int MAX_HEIGHT_IMAGE = 1600;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,35 +61,15 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         imageView = findViewById(R.id.imageViewServer);
         myIpTextView = findViewById(R.id.text_ip_client);
         myIpTextView.setText(myIpAddress);
+        //Picasso.get (). load (R.drawable.mapa) .into (imageView);
 
 
-       /* btnShowLeft = findViewById(R.id.show_left);
-        btnShowRight = findViewById(R.id.show_right);*/
-/*
-        btnShowLeft.setOnClickListener( view -> {
-            if(senderImage != null) {
-
-                Intent intent = new Intent(this, HalfImageActivity.class);
-                intent.putExtra("Base64Image", ImageUtility.convertToBytesArray(senderImage));
-                intent.putExtra("orientation","Izquierda");
-                startActivity(intent);
-            }
-        });
-
-        btnShowRight.setOnClickListener( view -> {
-            if(senderImage != null) {
-                Intent intent = new Intent(this, HalfImageActivity.class);
-                intent.putExtra("Base64Image", ImageUtility.convertToBytesArray(senderImage));
-                intent.putExtra("orientation","Derecha");
-                startActivity(intent);
-            }
-        });
-*/
         btnSubmitImage.setOnClickListener(view -> {
-            //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            //intent.setType("image/*");
-            Picasso.get (). load (R.drawable.mapa) .into (imageView);
-            //startActivityForResult(Intent.createChooser(intent,"Pick Image"), 1);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+
+            //Picasso.get (). load (R.drawable.mapa) .into (imageView);
+            startActivityForResult(Intent.createChooser(intent,"Pick Image"), 1);
         });
 
         btnSendImage.setOnClickListener(view -> sendMessageToServer());
@@ -126,17 +107,19 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
     private void sendMessageToServer() {
 
         String type = imageView.getDrawable().getClass().getSimpleName();
-        if (imageView.getDrawable() != null && type.equals("BitmapDrawable") && wsClient.isOpen()){
-            Toast.makeText(getApplicationContext(),"Enviando....",Toast.LENGTH_SHORT).show();
+        if (imageView.getDrawable() != null && type.equals("BitmapDrawable") && wsClient.isOpen()) {
+            Toast.makeText(getApplicationContext(), "Enviando....", Toast.LENGTH_SHORT).show();
             String base64Image = checkImageResolution(imageView);
             wsClient.send(base64Image);
-            Toast.makeText(getApplicationContext(),"Imagen Enviada",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Imagen Enviada", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, HalfImageActivity.class);
             intent.putExtra("Base64Image", ImageUtility.convertToBytesArray(senderImage));
             startActivity(intent);
         } else {
-            Toast.makeText(getApplicationContext(),"Accion Cancelada",Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(),"Accion Cancelada",Toast.LENGTH_SHORT).show();
         }
+
+
     }
     private String checkImageResolution(ImageView imageView){
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();

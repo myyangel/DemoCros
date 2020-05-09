@@ -44,19 +44,28 @@ public class HalfImageActivity extends AppCompatActivity {
         Sensey.getInstance().init(this);
         imageView = findViewById(R.id.imageViewServer);
         Intent intent = getIntent();
-        Sensey.getInstance().startTouchTypeDetection(this, touchTypListener);
+        Sensey.getInstance().startTouchTypeDetection(this, touchTypListener); // Dectecta el toque
         base64Image = intent.getByteArrayExtra("Base64Image");
         bitmap = ImageUtility.convertToBitmap(base64Image);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(bitmap);
 
-        imgBird = (ImageView)findViewById(R.id.imageBird);
+        Bitmap newsBitmap;
+        newsBitmap = ImageUtility.cropImage(bitmap, 1);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setImageBitmap(newsBitmap);
+
+        //
+        imgBird = (ImageView)findViewById(R.id.imageBird);  //Pajarito
         WindowManager wm = getWindowManager();
         Display disp =wm.getDefaultDisplay();
         Point size = new Point();
         disp.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+
+        imgBird.setX(screenWidth + 80.0f);
+        imgBird.setY(-80.0f);
 
         time.schedule(new TimerTask() {
             @Override
@@ -69,17 +78,21 @@ public class HalfImageActivity extends AppCompatActivity {
                 });
             }
         },0,20);
+
     }
 
+    //Posicion pajarito
     public void changePos(){
         birdX += 10;
         if (imgBird.getX() > screenWidth){
             birdX = -100.0f;
-            birdX = (float)Math.floor(Math.random()*(screenHeight - imgBird.getWidth()));
+            birdY = (float)Math.floor(Math.random()*(screenHeight - imgBird.getHeight()));
         }
         imgBird.setX(birdX);
         imgBird.setY(birdY);
     }
+
+    //
 
     @Override public boolean dispatchTouchEvent(MotionEvent event) {
         // Setup onTouchEvent for detecting type of touch gesture
@@ -108,13 +121,26 @@ public class HalfImageActivity extends AppCompatActivity {
 
                     break;
                 case TouchTypeDetector.SCROLL_DIR_LEFT:
-                    newBitmap = ImageUtility.cropImage(bitmap, false);
+                    newBitmap = ImageUtility.cropImage(bitmap, 1);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setImageBitmap(newBitmap);
+                    /*
+                    time.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    changePos();
+                                }
+                            });
+                        }
+                    },0,20);
+                     */
 
                     break;
                 case TouchTypeDetector.SCROLL_DIR_RIGHT:
-                    newBitmap = ImageUtility.cropImage(bitmap, true);
+                    newBitmap = ImageUtility.cropImage(bitmap, 1);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setImageBitmap(newBitmap);
 
