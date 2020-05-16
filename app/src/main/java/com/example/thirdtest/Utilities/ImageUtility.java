@@ -86,7 +86,6 @@ public class ImageUtility {
                 resizedBitmap = Bitmap.createBitmap(image, newWidth * 2, 0, newWidth, height);
             }
         }
-
         return resizedBitmap;
     }
 }

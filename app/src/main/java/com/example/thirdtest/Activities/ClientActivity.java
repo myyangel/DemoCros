@@ -4,14 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Constraints;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +31,9 @@ import com.github.nisrulz.sensey.Sensey;
 import com.github.nisrulz.sensey.TouchTypeDetector;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static com.example.thirdtest.Utilities.Constants.*;
 public class ClientActivity extends AppCompatActivity implements WebSocketReceiver {
 
@@ -45,9 +53,23 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     private float actualX, pastX;
     private int sendScrollCounter = 0;
     private DisplayMetrics displayMetrics;
-    private int  screenWidth;
+    private int  screenWidth, screenHeight;
     private float scrolledPercentage = 0;
     private static Context context;
+
+
+    //Image
+    private ImageView imgBird;
+    //Position
+    private float birdX;
+    private float birdY;
+    //Initialize class
+    //private Handler handler = new Handler();
+    private Timer time = new Timer();
+    //Animación Pajaro
+    private ObjectAnimator animateX;
+    private long animateDuration = 2000;
+
 
 
     @Override
@@ -61,14 +83,54 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         myIpAddress = connectMethods.FindMyIpAddress(this);
         imageView =findViewById(R.id.imageViewClient);;
 
+
+
         handler = new Handler();
         connectWebSocket();
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         Sensey.getInstance().startTouchTypeDetection(context, touchTypListener);
-    }
 
+        //Pajaro var
+        imgBird = (ImageView)findViewById(R.id.imageBird);  //Pajarito
+        //WindowManager wm = getWindowManager();
+        //Display disp =wm.getDefaultDisplay();
+        //Point size = new Point();
+        //disp.getSize(size);
+        //screenWidth = size.x;
+        screenHeight = displayMetrics.heightPixels;
+
+        //Dibujar pajaro
+        imgBird.setX(-300.0f);
+        imgBird.setY(900.0f);
+/*
+        time.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        changePos();
+                    }
+                });
+            }
+        },0,20);
+*/
+    }
+/*
+    //Posicion pajarito
+    public void changePos(){
+        birdX += 10;
+        if (imgBird.getX() > screenWidth){
+            birdX = -100.0f;
+            birdY = 80.0f;
+                    //(float)Math.floor(Math.random()*(screenHeight - imgBird.getHeight()));
+        }
+        imgBird.setX(birdX);
+        imgBird.setY(birdY);
+    }
+*/
     @Override public boolean dispatchTouchEvent(MotionEvent event) {
         // Setup onTouchEvent for detecting type of touch gesture
         Sensey.getInstance().setupDispatchTouchEvent(event);
@@ -136,7 +198,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                         break;
                     case TouchTypeDetector.SCROLL_DIR_RIGHT:
                         if(bitmap != null) {
-                         newBitmap = ImageUtility.cropImage(bitmap, 0);
+                         newBitmap = ImageUtility.cropImage(bitmap, 1);
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         imageView.setImageBitmap(newBitmap);
                         }else {
@@ -146,9 +208,17 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                     default:
                         // Do nothing
                         break;
-                }}
+                }
+
+        }
 
         @Override public void onSingleTap() {
+            //Animation
+            animateX = ObjectAnimator.ofFloat(imgBird,"x",1100f);
+            animateX.setDuration(animateDuration);
+            AnimatorSet animateSetX = new AnimatorSet();
+            animateSetX.play(animateX);
+            animateSetX.start();
         }
         @Override public void onSwipe(int swipeDirection) {
 
@@ -172,5 +242,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         @Override public void onLongPress() {
         }
     };
+
+
 
 }

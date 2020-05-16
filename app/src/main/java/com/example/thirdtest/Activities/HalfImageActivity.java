@@ -2,6 +2,9 @@ package com.example.thirdtest.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -27,20 +30,29 @@ public class HalfImageActivity extends AppCompatActivity {
     private boolean side;
     public ImageView imageView ;
 
+    //Screen Size
     private  int screenWidth;
     private  int screenHeight;
+    private final int per = 20;
+    //Image
     private ImageView imgBird;
-
+    //Position
     private float birdX;
     private float birdY;
-
+    //Initialize class
     private Handler handler = new Handler();
     private Timer time = new Timer();
+
+    //Animación Pajaro
+    private ObjectAnimator animateX;
+    private long animateDuration = 2000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_half_image);
+
         Sensey.getInstance().init(this);
         imageView = findViewById(R.id.imageViewServer);
         Intent intent = getIntent();
@@ -55,7 +67,7 @@ public class HalfImageActivity extends AppCompatActivity {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(newsBitmap);
 
-        //
+        //Codigo Pajaro
         imgBird = (ImageView)findViewById(R.id.imageBird);  //Pajarito
         WindowManager wm = getWindowManager();
         Display disp =wm.getDefaultDisplay();
@@ -64,35 +76,25 @@ public class HalfImageActivity extends AppCompatActivity {
         screenWidth = size.x;
         screenHeight = size.y;
 
-        imgBird.setX(screenWidth + 80.0f);
-        imgBird.setY(-80.0f);
-
-        time.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        changePos();
-                    }
-                });
-            }
-        },0,20);
+        //Dibujar pajaro
+        imgBird.setX(-300.0f);
+        imgBird.setY(900.0f);
 
     }
-
+/*
     //Posicion pajarito
     public void changePos(){
         birdX += 10;
         if (imgBird.getX() > screenWidth){
             birdX = -100.0f;
-            birdY = (float)Math.floor(Math.random()*(screenHeight - imgBird.getHeight()));
+            birdY = 80.0f;
+                    //(float)Math.floor(Math.random()*(screenHeight - imgBird.getHeight()));
         }
         imgBird.setX(birdX);
         imgBird.setY(birdY);
     }
+*/
 
-    //
 
     @Override public boolean dispatchTouchEvent(MotionEvent event) {
         // Setup onTouchEvent for detecting type of touch gesture
@@ -121,26 +123,14 @@ public class HalfImageActivity extends AppCompatActivity {
 
                     break;
                 case TouchTypeDetector.SCROLL_DIR_LEFT:
-                    newBitmap = ImageUtility.cropImage(bitmap, 1);
+                    newBitmap = ImageUtility.cropImage(bitmap, 0);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setImageBitmap(newBitmap);
-                    /*
-                    time.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    changePos();
-                                }
-                            });
-                        }
-                    },0,20);
-                     */
+
 
                     break;
                 case TouchTypeDetector.SCROLL_DIR_RIGHT:
-                    newBitmap = ImageUtility.cropImage(bitmap, 1);
+                    newBitmap = ImageUtility.cropImage(bitmap, 0);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setImageBitmap(newBitmap);
 
@@ -148,9 +138,31 @@ public class HalfImageActivity extends AppCompatActivity {
                 default:
                     // Do nothing
                     break;
-            }}
+            }
+
+        }
 
         @Override public void onSingleTap() {
+            /*time.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            changePos();
+                        }
+                    });
+                }
+            },0,per);*/
+
+            //Animation
+            animateX = ObjectAnimator.ofFloat(imgBird,"x",1100f);
+            animateX.setDuration(animateDuration);
+            AnimatorSet animateSetX = new AnimatorSet();
+            animateSetX.play(animateX);
+            animateSetX.start();
+
+
         }
         @Override public void onSwipe(int swipeDirection) {
 
