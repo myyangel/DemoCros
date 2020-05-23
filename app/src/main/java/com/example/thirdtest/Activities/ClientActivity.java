@@ -26,6 +26,7 @@ import com.app.mg.connectionlibraryandroid.Implementations.ConnectMethods;
 import com.example.thirdtest.Interfaces.WebSocketReceiver;
 import com.example.thirdtest.R;
 import com.example.thirdtest.Utilities.ImageUtility;
+import com.example.thirdtest.Utilities.TimeClass;
 import com.example.thirdtest.WebSockets.WebSocketClientImp; //Libreria WebSocket
 import com.github.nisrulz.sensey.Sensey;
 import com.github.nisrulz.sensey.TouchTypeDetector;
@@ -69,6 +70,9 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     //Animación Pajaro
     private ObjectAnimator animateX;
     private long animateDuration = 2000;
+
+    //Timer counter
+    TimeClass timeC;
 
 
 
@@ -116,6 +120,8 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                 });
             }
         },0,20);
+
+
 */
     }
 /*

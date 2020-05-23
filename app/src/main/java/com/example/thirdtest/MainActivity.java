@@ -19,6 +19,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+//aqui
+import com.example.thirdtest.Utilities.TimeClass;
+
 public class MainActivity extends AppCompatActivity {
 
     ConnectMethods connectMethods = new ConnectMethods();
@@ -39,12 +43,16 @@ public class MainActivity extends AppCompatActivity {
         myIpAddress = connectMethods.FindMyIpAddress(this);
         myIpTextView.setText(myIpAddress);
 
+
+
         btnClient = findViewById(R.id.btn_client);
         btnServer = findViewById(R.id.btn_server);
 
         btnServer.setOnClickListener(view -> {
+
             Intent intent = new Intent(view.getContext(), ServerActivity.class);
             startActivity(intent);
+
         });
 
         btnClient.setOnClickListener(view -> {

@@ -9,14 +9,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.Display;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.thirdtest.R;
 import com.example.thirdtest.Utilities.ImageUtility;
+import com.example.thirdtest.Utilities.TimeClass;
 import com.github.nisrulz.sensey.Sensey;
 import com.github.nisrulz.sensey.TouchTypeDetector;
 
@@ -46,6 +51,11 @@ public class HalfImageActivity extends AppCompatActivity {
     //Animación Pajaro
     private ObjectAnimator animateX;
     private long animateDuration = 2000;
+
+    //Timer counter
+    private TextView time_count;
+    TimeClass timeC = new TimeClass();
+    private Button btStart;
 
 
     @Override
@@ -80,8 +90,54 @@ public class HalfImageActivity extends AppCompatActivity {
         imgBird.setX(-300.0f);
         imgBird.setY(900.0f);
 
+        //Time Down
+        time_count = findViewById(R.id.time);
+        btStart = findViewById(R.id.btStart);
+
+
+        /*time.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            changePos();
+                        }
+                    });
+                }
+            },0,per);*/
+
+        //Animation
+        /*
+        timeC.starTime();
+        time_count.setText(timeC.timeCount);
+        if (timeC.mTimeMilis == 6000 ) {
+            animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
+            animateX.setDuration(animateDuration);
+            AnimatorSet animateSetX = new AnimatorSet();
+            animateSetX.play(animateX);
+            animateSetX.start();
+        }*/
+
+        btStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeC.starTime();
+                time_count.setText(timeC.timeCount);
+                //if (timeC.mTimeMilis == 6000 ) {
+                    animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
+                    animateX.setDuration(animateDuration);
+                    AnimatorSet animateSetX = new AnimatorSet();
+                    animateSetX.play(animateX);
+                    animateSetX.start();
+                //}
+            }
+        });
     }
-/*
+
+
+
+    /*
     //Posicion pajarito
     public void changePos(){
         birdX += 10;
@@ -96,7 +152,8 @@ public class HalfImageActivity extends AppCompatActivity {
 */
 
 
-    @Override public boolean dispatchTouchEvent(MotionEvent event) {
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
         // Setup onTouchEvent for detecting type of touch gesture
         Sensey.getInstance().setupDispatchTouchEvent(event);
         return super.dispatchTouchEvent(event);
@@ -109,6 +166,7 @@ public class HalfImageActivity extends AppCompatActivity {
         @Override public void onThreeFingerSingleTap() {
         }
         @Override public void onDoubleTap() {
+
 
         }
         @Override public void onScroll(int scrollDirection) {
@@ -143,27 +201,8 @@ public class HalfImageActivity extends AppCompatActivity {
         }
 
         @Override public void onSingleTap() {
-            /*time.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            changePos();
-                        }
-                    });
-                }
-            },0,per);*/
-
-            //Animation
-            animateX = ObjectAnimator.ofFloat(imgBird,"x",1100f);
-            animateX.setDuration(animateDuration);
-            AnimatorSet animateSetX = new AnimatorSet();
-            animateSetX.play(animateX);
-            animateSetX.start();
-
-
         }
+
         @Override public void onSwipe(int swipeDirection) {
 
             switch (swipeDirection) {
