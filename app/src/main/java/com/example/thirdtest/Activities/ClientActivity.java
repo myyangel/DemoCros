@@ -98,45 +98,24 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
 
         //Pajaro var
         imgBird = (ImageView)findViewById(R.id.imageBird);  //Pajarito
-        //WindowManager wm = getWindowManager();
-        //Display disp =wm.getDefaultDisplay();
-        //Point size = new Point();
-        //disp.getSize(size);
-        //screenWidth = size.x;
         screenHeight = displayMetrics.heightPixels;
 
         //Dibujar pajaro
         imgBird.setX(-300.0f);
         imgBird.setY(900.0f);
-/*
-        time.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        changePos();
-                    }
-                });
-            }
-        },0,20);
+        timeC.starTime();
+        if (timeC.getValor() == 4000 ) {Pajaro();}
 
+    }
 
-*/
+    public void Pajaro () {
+        animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
+        animateX.setDuration(animateDuration);
+        AnimatorSet animateSetX = new AnimatorSet();
+        animateSetX.play(animateX);
+        animateSetX.start();
     }
-/*
-    //Posicion pajarito
-    public void changePos(){
-        birdX += 10;
-        if (imgBird.getX() > screenWidth){
-            birdX = -100.0f;
-            birdY = 80.0f;
-                    //(float)Math.floor(Math.random()*(screenHeight - imgBird.getHeight()));
-        }
-        imgBird.setX(birdX);
-        imgBird.setY(birdY);
-    }
-*/
+
     @Override public boolean dispatchTouchEvent(MotionEvent event) {
         // Setup onTouchEvent for detecting type of touch gesture
         Sensey.getInstance().setupDispatchTouchEvent(event);
@@ -219,12 +198,6 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         }
 
         @Override public void onSingleTap() {
-            //Animation
-            animateX = ObjectAnimator.ofFloat(imgBird,"x",1100f);
-            animateX.setDuration(animateDuration);
-            AnimatorSet animateSetX = new AnimatorSet();
-            animateSetX.play(animateX);
-            animateSetX.start();
         }
         @Override public void onSwipe(int swipeDirection) {
 

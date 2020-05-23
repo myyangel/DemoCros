@@ -95,61 +95,27 @@ public class HalfImageActivity extends AppCompatActivity {
         btStart = findViewById(R.id.btStart);
 
 
-        /*time.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            changePos();
-                        }
-                    });
-                }
-            },0,per);*/
-
-        //Animation
-        /*
-        timeC.starTime();
-        time_count.setText(timeC.timeCount);
-        if (timeC.mTimeMilis == 6000 ) {
-            animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
-            animateX.setDuration(animateDuration);
-            AnimatorSet animateSetX = new AnimatorSet();
-            animateSetX.play(animateX);
-            animateSetX.start();
-        }*/
 
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeC.starTime();
-                time_count.setText(timeC.timeCount);
-                //if (timeC.mTimeMilis == 6000 ) {
-                    animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
-                    animateX.setDuration(animateDuration);
-                    AnimatorSet animateSetX = new AnimatorSet();
-                    animateSetX.play(animateX);
-                    animateSetX.start();
+                //timeC.starTime();
+                //time_count.setText(timeC.timeCount);
+                //if (timeC.getValor() == 6000 ) {
+                    Pajaro();
                 //}
             }
         });
     }
 
 
-
-    /*
-    //Posicion pajarito
-    public void changePos(){
-        birdX += 10;
-        if (imgBird.getX() > screenWidth){
-            birdX = -100.0f;
-            birdY = 80.0f;
-                    //(float)Math.floor(Math.random()*(screenHeight - imgBird.getHeight()));
-        }
-        imgBird.setX(birdX);
-        imgBird.setY(birdY);
+    public void Pajaro () {
+        animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
+        animateX.setDuration(animateDuration);
+        AnimatorSet animateSetX = new AnimatorSet();
+        animateSetX.play(animateX);
+        animateSetX.start();
     }
-*/
 
 
     @Override

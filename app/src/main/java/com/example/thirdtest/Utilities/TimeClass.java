@@ -34,8 +34,8 @@ public class TimeClass {
         mTimeRun = true;
     }
 
-    public String getValor(){
-        return timeCount;
+    public long getValor(){
+        return mTimeMilis;
     }
 
     public void resetTime(){
