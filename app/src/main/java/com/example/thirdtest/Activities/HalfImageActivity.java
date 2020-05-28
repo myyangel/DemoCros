@@ -95,17 +95,38 @@ public class HalfImageActivity extends AppCompatActivity {
         btStart = findViewById(R.id.btStart);
 
 
-
         btStart.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 //timeC.starTime();
+
+                time.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //if (timeC.mTimeMilis == 6000)
+                                if (!timeC.client) {
+
+                                    Pajaro();
+                                    //timeC.client = true;
+                                }
+                            }
+                        });
+                    }
+                },0,2000);
+
                 //time_count.setText(timeC.timeCount);
-                //if (timeC.getValor() == 6000 ) {
-                    Pajaro();
+                //if(timeC.getValor() < 6000 ) {
+                    //Pajaro();
+                    //timeC.client = true;
                 //}
             }
         });
+
+
     }
 
 
@@ -115,6 +136,7 @@ public class HalfImageActivity extends AppCompatActivity {
         AnimatorSet animateSetX = new AnimatorSet();
         animateSetX.play(animateX);
         animateSetX.start();
+
     }
 
 

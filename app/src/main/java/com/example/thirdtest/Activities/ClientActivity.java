@@ -65,14 +65,15 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     private float birdX;
     private float birdY;
     //Initialize class
-    //private Handler handler = new Handler();
     private Timer time = new Timer();
     //Animación Pajaro
     private ObjectAnimator animateX;
     private long animateDuration = 2000;
 
     //Timer counter
-    TimeClass timeC;
+    TimeClass timeC = new TimeClass();
+
+    private TextView nClient;
 
 
 
@@ -86,8 +87,6 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
       //  orientation = getIntent().getStringExtra("orientation");
         myIpAddress = connectMethods.FindMyIpAddress(this);
         imageView =findViewById(R.id.imageViewClient);;
-
-
 
         handler = new Handler();
         connectWebSocket();
@@ -103,8 +102,28 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         //Dibujar pajaro
         imgBird.setX(-300.0f);
         imgBird.setY(900.0f);
+        /*
         timeC.starTime();
-        if (timeC.getValor() == 4000 ) {Pajaro();}
+        if (timeC.client == true ) {
+            Pajaro();
+            timeC.client = false;
+        }
+
+*/
+        /*time.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //if (timeC.mTimeMilis == 4000)
+                            Pajaro();
+                    }
+                });
+            }
+        },5000,2000);*/
+
+        nClient = findViewById(R.id.numClient);
 
     }
 
@@ -139,12 +158,33 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     public void onWebSocketMessage(String message) {
 
         bitmap = ImageUtility.convertToBitmap(message);
-/*
-        handler.post((Runnable) () -> {
 
-            Toast.makeText(context, "Llegó la imagen", Toast.LENGTH_LONG).show();
-        });*/
+        //handler.post((Runnable) () -> {
+            //while (!timeC.client) {
+            //if (timeC.client) {
+                //Object().wait(2);
+                //Pajaro();
+                //timeC.client = false;
+            //}
+            //Toast.makeText(context, "Llegó la imagen", Toast.LENGTH_LONG).show();
+        //});
+
+        time.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //if (timeC.mTimeMilis == 4000)
+                        //if (timeC.client)
+                        Pajaro();
+                    }
+                });
+            }
+        },6000,2000);
     }
+
+
 
     @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {
@@ -177,6 +217,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                             newBitmap = ImageUtility.cropImage(bitmap, 2);
                             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                             imageView.setImageBitmap(newBitmap);
+                            nClient.setText("2");
                         }else {
                             Toast.makeText(context, "La imagen todavía no llega", Toast.LENGTH_LONG).show();
                         }
@@ -184,8 +225,9 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                     case TouchTypeDetector.SCROLL_DIR_RIGHT:
                         if(bitmap != null) {
                          newBitmap = ImageUtility.cropImage(bitmap, 1);
-                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                        imageView.setImageBitmap(newBitmap);
+                         nClient.setText("1");
+                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                         imageView.setImageBitmap(newBitmap);
                         }else {
                             Toast.makeText(context, "La imagen todavía no llega", Toast.LENGTH_LONG).show();
                         }

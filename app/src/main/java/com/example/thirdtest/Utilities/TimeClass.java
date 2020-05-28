@@ -9,10 +9,11 @@ import java.util.Locale;
 
 public class TimeClass {
 
-    public static final long INITIAL = 7000;
-    public String timeCount;
-    public CountDownTimer mTimeCount;
-    public boolean mTimeRun;
+    private static final long INITIAL = 7000;
+    private String timeCount;
+    private CountDownTimer mTimeCount;
+    private boolean mTimeRun;
+    public boolean client = false;
     public long mTimeMilis = INITIAL;
 
 
@@ -34,9 +35,6 @@ public class TimeClass {
         mTimeRun = true;
     }
 
-    public long getValor(){
-        return mTimeMilis;
-    }
 
     public void resetTime(){
         mTimeMilis = INITIAL;
@@ -50,5 +48,9 @@ public class TimeClass {
 
         timeCount = timeLeft;
 
+    }
+
+    public void TimeDown (){
+        starTime();
     }
 }
