@@ -53,7 +53,7 @@ public class HalfImageActivity extends AppCompatActivity {
     private long animateDuration = 2000;
 
     //Timer counter
-    private TextView time_count;
+    //private TextView time_count;
     TimeClass timeC = new TimeClass();
     private Button btStart;
 
@@ -73,7 +73,7 @@ public class HalfImageActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
 
         Bitmap newsBitmap;
-        newsBitmap = ImageUtility.cropImage(bitmap, 1);
+        newsBitmap = ImageUtility.cropImage(bitmap, 0);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(newsBitmap);
 
@@ -91,7 +91,7 @@ public class HalfImageActivity extends AppCompatActivity {
         imgBird.setY(900.0f);
 
         //Time Down
-        time_count = findViewById(R.id.time);
+        //time_count = findViewById(R.id.time);
         btStart = findViewById(R.id.btStart);
 
 
@@ -109,7 +109,6 @@ public class HalfImageActivity extends AppCompatActivity {
                             public void run() {
                                 //if (timeC.mTimeMilis == 6000)
                                 if (!timeC.client) {
-
                                     Pajaro();
                                     //timeC.client = true;
                                 }
@@ -169,16 +168,16 @@ public class HalfImageActivity extends AppCompatActivity {
 
                     break;
                 case TouchTypeDetector.SCROLL_DIR_LEFT:
-                    newBitmap = ImageUtility.cropImage(bitmap, 0);
+                    /*newBitmap = ImageUtility.cropImage(bitmap, 0);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setImageBitmap(newBitmap);
+                    imageView.setImageBitmap(newBitmap);*/
 
 
                     break;
                 case TouchTypeDetector.SCROLL_DIR_RIGHT:
-                    newBitmap = ImageUtility.cropImage(bitmap, 0);
+                    /*newBitmap = ImageUtility.cropImage(bitmap, 0);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setImageBitmap(newBitmap);
+                    imageView.setImageBitmap(newBitmap);*/
 
                     break;
                 default:

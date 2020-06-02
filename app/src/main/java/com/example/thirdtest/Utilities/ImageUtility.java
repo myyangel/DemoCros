@@ -36,7 +36,7 @@ public class ImageUtility {
         BitmapDrawable drawable = (BitmapDrawable) view.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,40,bos);
         byte[] imageBytes = bos.toByteArray();
         String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
@@ -45,7 +45,7 @@ public class ImageUtility {
 
     public static byte[] convertToBytesArray (Bitmap bitmap) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,40,bos);
         byte[] imageBytes = bos.toByteArray();
 
         return  imageBytes;
@@ -61,7 +61,7 @@ public class ImageUtility {
             bitmap = Bitmap.createScaledBitmap(bitmap, LANDSCAPE_WIDTH_IMAGE, LANDSCAPE_HEIGHT_IMAGE, false);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,90,bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,40,bos);
         byte[] imageBytes = bos.toByteArray();
         String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
@@ -72,7 +72,7 @@ public class ImageUtility {
     public static Bitmap cropImage(Bitmap image, int side){
         int width = image.getWidth();
         int height = image.getHeight();
-        int newWidth = width / 3;
+        int newWidth = width / 3; // numCiente
        //int newHeight = height / 2;
 
         // recreate the new Bitmap

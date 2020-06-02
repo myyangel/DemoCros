@@ -74,6 +74,8 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     TimeClass timeC = new TimeClass();
 
     private TextView nClient;
+    //private String newClient = "";
+    private int numCliente;
 
 
 
@@ -87,6 +89,8 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
       //  orientation = getIntent().getStringExtra("orientation");
         myIpAddress = connectMethods.FindMyIpAddress(this);
         imageView =findViewById(R.id.imageViewClient);;
+
+
 
         handler = new Handler();
         connectWebSocket();
@@ -125,6 +129,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
 
         nClient = findViewById(R.id.numClient);
 
+
     }
 
     public void Pajaro () {
@@ -141,9 +146,15 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         return super.dispatchTouchEvent(event);
     }
     private void connectWebSocket() {
+        //if (newClient != myIpAddress){
+            //numCliente ++;
+//        }
+
         wsClient = new WebSocketClientImp(connectMethods.GetUriServer(serverIpAddress,SERVER_PORT), this);
         wsClient.connect();
         Toast.makeText(getApplicationContext(),"Cliente Conectado",Toast.LENGTH_SHORT).show();
+        numCliente = 1;
+
     }
 
     @Override
@@ -158,7 +169,6 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     public void onWebSocketMessage(String message) {
 
         bitmap = ImageUtility.convertToBitmap(message);
-
         //handler.post((Runnable) () -> {
             //while (!timeC.client) {
             //if (timeC.client) {
@@ -175,8 +185,6 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //if (timeC.mTimeMilis == 4000)
-                        //if (timeC.client)
                         Pajaro();
                     }
                 });
@@ -214,23 +222,23 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                         break;
                     case TouchTypeDetector.SCROLL_DIR_LEFT:
                         if(bitmap != null) {
-                            newBitmap = ImageUtility.cropImage(bitmap, 2);
+                            newBitmap = ImageUtility.cropImage(bitmap, numCliente); //side numClient
                             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                             imageView.setImageBitmap(newBitmap);
-                            nClient.setText("2");
+                            nClient.setText(String.valueOf(numCliente)); // numCliente
                         }else {
                             Toast.makeText(context, "La imagen todavía no llega", Toast.LENGTH_LONG).show();
                         }
                         break;
                     case TouchTypeDetector.SCROLL_DIR_RIGHT:
-                        if(bitmap != null) {
+                        /*if(bitmap != null) {
                          newBitmap = ImageUtility.cropImage(bitmap, 1);
-                         nClient.setText("1");
                          imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                          imageView.setImageBitmap(newBitmap);
+                         nClient.setText("1");
                         }else {
                             Toast.makeText(context, "La imagen todavía no llega", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
                         break;
                     default:
                         // Do nothing

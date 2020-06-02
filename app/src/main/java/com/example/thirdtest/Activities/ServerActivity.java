@@ -65,6 +65,8 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         //Picasso.get (). load (R.drawable.mapa) .into (imageView);
 
 
+
+
         btnSubmitImage.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");

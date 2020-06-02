@@ -24,6 +24,7 @@ public class WebSocketClientImp extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
+        //Contador
         Log.i("CLIENT OPEN","Arrive Open");
     }
 
