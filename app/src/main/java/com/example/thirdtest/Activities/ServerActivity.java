@@ -50,6 +50,8 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,11 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         wsClient = new WebSocketClientImp(connectMethods.GetUriServer(myIpAddress, port), this);
         wsClient.connect();
         Toast.makeText(getApplicationContext(),"Cliente Conectado",Toast.LENGTH_SHORT).show();
+
+        //contador de clientes
+
+
+
     }
 
     private void SetWServerAndStart() {
@@ -117,6 +124,7 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
             //Toast.makeText(getApplicationContext(), "Imagen Enviada", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, HalfImageActivity.class);
             intent.putExtra("Base64Image", ImageUtility.convertToBytesArray(senderImage));
+
             startActivity(intent);
         } else {
            Toast.makeText(getApplicationContext(),"Accion Cancelada",Toast.LENGTH_SHORT).show();
@@ -178,6 +186,7 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
 
     @Override
     public void onWebSocketMessage(String message) {
+
 
     }
 

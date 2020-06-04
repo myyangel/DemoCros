@@ -13,6 +13,8 @@ public class WebSocketClientImp extends WebSocketClient {
 
     private WebSocketReceiver receiverMethod;
 
+    public int numCliente = 1;
+
     public WebSocketClientImp(URI serverUri) {
         super(serverUri);
     }
@@ -24,8 +26,8 @@ public class WebSocketClientImp extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        //Contador
         Log.i("CLIENT OPEN","Arrive Open");
+        numCliente ++;
     }
 
     @Override

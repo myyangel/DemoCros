@@ -35,13 +35,15 @@ public class FindServerActivity extends AppCompatActivity {
             if(!ipServer.isEmpty() &&  Patterns.IP_ADDRESS.matcher(ipServer).matches()){
                 Intent intent = new Intent(FindServerActivity.this,ClientActivity.class);
                 intent.putExtra("ipServer",ipServer);
-               // intent.putExtra("orientation",radioButton.getText());
+                // intent.putExtra("orientation",radioButton.getText());
                 startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(),"Ingrese una Ip valida",Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
  /*   public void  checkButton(View v){

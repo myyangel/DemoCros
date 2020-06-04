@@ -153,7 +153,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         wsClient = new WebSocketClientImp(connectMethods.GetUriServer(serverIpAddress,SERVER_PORT), this);
         wsClient.connect();
         Toast.makeText(getApplicationContext(),"Cliente Conectado",Toast.LENGTH_SHORT).show();
-        numCliente = 1;
+        numCliente = wsClient.numCliente;
 
     }
 

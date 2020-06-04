@@ -56,6 +56,7 @@ public class HalfImageActivity extends AppCompatActivity {
     //private TextView time_count;
     TimeClass timeC = new TimeClass();
     private Button btStart;
+    private int nCliente;
 
 
     @Override
@@ -68,6 +69,7 @@ public class HalfImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Sensey.getInstance().startTouchTypeDetection(this, touchTypListener); // Dectecta el toque
         base64Image = intent.getByteArrayExtra("Base64Image");
+
         bitmap = ImageUtility.convertToBitmap(base64Image);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(bitmap);
