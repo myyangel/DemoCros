@@ -51,7 +51,7 @@ public class HalfImageActivity extends AppCompatActivity {
 
     //Animación Pajaro
     private ObjectAnimator animateX;
-    private long animateDuration = 3000;
+    private long animateDuration = 2000;
 
     //Timer counter
     //private TextView time_count;

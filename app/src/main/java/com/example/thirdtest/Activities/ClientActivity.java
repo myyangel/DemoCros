@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -76,6 +77,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     private TextView nClient;
     //private String newClient = "";
     private int numCliente;
+    AnimationDrawable astro;
 
 
 
@@ -102,6 +104,11 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         //Pajaro var
         imgBird = (ImageView)findViewById(R.id.imageBird);  //Pajarito
         screenHeight = displayMetrics.heightPixels;
+
+        //Sprite
+        if (imgBird==null) throw new AssertionError();
+        imgBird.setBackgroundResource(R.drawable.astro_animation);
+        astro = (AnimationDrawable)imgBird.getBackground();
 
         //Dibujar pajaro
         imgBird.setX(-300.0f);
@@ -185,6 +192,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        astro.start();
                         Pajaro();
                     }
                 });
