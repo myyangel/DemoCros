@@ -8,6 +8,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -50,13 +51,14 @@ public class HalfImageActivity extends AppCompatActivity {
 
     //Animación Pajaro
     private ObjectAnimator animateX;
-    private long animateDuration = 2000;
+    private long animateDuration = 3000;
 
     //Timer counter
     //private TextView time_count;
     TimeClass timeC = new TimeClass();
     private Button btStart;
     private int nCliente;
+    AnimationDrawable astro;
 
 
     @Override
@@ -80,7 +82,7 @@ public class HalfImageActivity extends AppCompatActivity {
         imageView.setImageBitmap(newsBitmap);
 
         //Codigo Pajaro
-        imgBird = (ImageView)findViewById(R.id.imageBird);  //Pajarito
+        imgBird = (ImageView)findViewById(R.id.imageBird);//Pajarito
         WindowManager wm = getWindowManager();
         Display disp =wm.getDefaultDisplay();
         Point size = new Point();
@@ -91,6 +93,11 @@ public class HalfImageActivity extends AppCompatActivity {
         //Dibujar pajaro
         imgBird.setX(-300.0f);
         imgBird.setY(900.0f);
+
+        //Sprite
+        if (imgBird==null) throw new AssertionError();
+        imgBird.setBackgroundResource(R.drawable.astro_animation);
+        astro = (AnimationDrawable)imgBird.getBackground();
 
         //Time Down
         //time_count = findViewById(R.id.time);
@@ -110,10 +117,9 @@ public class HalfImageActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 //if (timeC.mTimeMilis == 6000)
-                                if (!timeC.client) {
-                                    Pajaro();
-                                    //timeC.client = true;
-                                }
+                                astro.start();
+                                Pajaro();
+                                //timeC.client = true;
                             }
                         });
                     }
