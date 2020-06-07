@@ -51,14 +51,15 @@ public class HalfImageActivity extends AppCompatActivity {
 
     //Animación Pajaro
     private ObjectAnimator animateX;
-    private long animateDuration = 2000;
+    private long animateDuration = 3000;
 
     //Timer counter
     //private TextView time_count;
     TimeClass timeC = new TimeClass();
     private Button btStart;
     private int nCliente;
-    AnimationDrawable astro;
+    AnimationDrawable astroC;
+    AnimationDrawable astroS;
 
 
     @Override
@@ -91,13 +92,13 @@ public class HalfImageActivity extends AppCompatActivity {
         screenHeight = size.y;
 
         //Dibujar pajaro
-        imgBird.setX(-300.0f);
-        imgBird.setY(900.0f);
+        AstroPos();
 
         //Sprite
         if (imgBird==null) throw new AssertionError();
         imgBird.setBackgroundResource(R.drawable.astro_animation);
-        astro = (AnimationDrawable)imgBird.getBackground();
+        astroC = (AnimationDrawable)imgBird.getBackground();
+        astroS = (AnimationDrawable)imgBird.getBackground();
 
         //Time Down
         //time_count = findViewById(R.id.time);
@@ -109,7 +110,7 @@ public class HalfImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //timeC.starTime();
-
+                btStart.setVisibility(View.INVISIBLE);
                 time.schedule(new TimerTask() {
                     @Override
                     public void run() {
@@ -117,25 +118,30 @@ public class HalfImageActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 //if (timeC.mTimeMilis == 6000)
-                                astro.start();
+                                astroC.start();
                                 Pajaro();
                                 //timeC.client = true;
                             }
                         });
                     }
-                },0,2000);
+                },0,3000);
 
                 //time_count.setText(timeC.timeCount);
                 //if(timeC.getValor() < 6000 ) {
                     //Pajaro();
                     //timeC.client = true;
                 //}
+
             }
         });
 
 
     }
 
+    public void AstroPos (){
+        imgBird.setX(-300.0f);
+        imgBird.setY(900.0f);
+    }
 
     public void Pajaro () {
         animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
@@ -143,6 +149,7 @@ public class HalfImageActivity extends AppCompatActivity {
         AnimatorSet animateSetX = new AnimatorSet();
         animateSetX.play(animateX);
         animateSetX.start();
+
 
     }
 

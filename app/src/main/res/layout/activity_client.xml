@@ -22,7 +22,6 @@
         android:id="@+id/imageBird"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:srcCompat="@drawable/bird"
         />
 
     <TextView
