@@ -25,6 +25,9 @@ import android.widget.Toast;
 
 import com.app.mg.connectionlibraryandroid.Implementations.ConnectMethods;
 import com.example.thirdtest.Interfaces.WebSocketReceiver;
+import com.example.thirdtest.Networking.ApiAdapter;
+import com.example.thirdtest.Networking.ApiService;
+import com.example.thirdtest.Networking.ClientNumber;
 import com.example.thirdtest.R;
 import com.example.thirdtest.Utilities.ImageUtility;
 import com.example.thirdtest.Utilities.TimeClass;
@@ -35,6 +38,10 @@ import com.github.nisrulz.sensey.TouchTypeDetector;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.thirdtest.Utilities.Constants.*;
 public class ClientActivity extends AppCompatActivity implements WebSocketReceiver {
@@ -76,7 +83,8 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
 
     private TextView nClient;
     //private String newClient = "";
-    private int numCliente;
+    private int clientNumber;
+    ApiService service = ApiAdapter.getApiService();
     AnimationDrawable astro;
 
 
@@ -113,6 +121,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         //Dibujar pajaro
         imgBird.setX(-300.0f);
         imgBird.setY(900.0f);
+
         /*
         timeC.starTime();
         if (timeC.client == true ) {
@@ -156,11 +165,26 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         //if (newClient != myIpAddress){
             //numCliente ++;
 //        }
-
         wsClient = new WebSocketClientImp(connectMethods.GetUriServer(serverIpAddress,SERVER_PORT), this);
         wsClient.connect();
         Toast.makeText(getApplicationContext(),"Cliente Conectado",Toast.LENGTH_SHORT).show();
-        numCliente = wsClient.numCliente;
+        Call call = service.affiliateClientAndGetNumber();
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.body() != null) {
+                    ClientNumber client  = (ClientNumber) response.body();
+                    clientNumber = client.getClientNumber();
+                    System.out.println(clientNumber);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -230,10 +254,10 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                         break;
                     case TouchTypeDetector.SCROLL_DIR_LEFT:
                         if(bitmap != null) {
-                            newBitmap = ImageUtility.cropImage(bitmap, numCliente); //side numClient
+                            newBitmap = ImageUtility.cropImage(bitmap, clientNumber); //side numClient
                             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                             imageView.setImageBitmap(newBitmap);
-                            nClient.setText(String.valueOf(numCliente)); // numCliente
+                            nClient.setText(String.valueOf(clientNumber)); // numCliente
                         }else {
                             Toast.makeText(context, "La imagen todavía no llega", Toast.LENGTH_LONG).show();
                         }
@@ -252,7 +276,6 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
                         // Do nothing
                         break;
                 }
-
         }
 
         @Override public void onSingleTap() {

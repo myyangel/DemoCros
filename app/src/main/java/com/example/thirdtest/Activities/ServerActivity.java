@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.app.mg.connectionlibraryandroid.Implementations.ConnectMethods;
 import com.example.thirdtest.Interfaces.WebSocketReceiver;
+import com.example.thirdtest.Networking.ApiAdapter;
+import com.example.thirdtest.Networking.ApiService;
+import com.example.thirdtest.Networking.ClientNumber;
 import com.example.thirdtest.R;
 import com.example.thirdtest.Utilities.ImageUtility;
 import com.example.thirdtest.WebSockets.WebSocketClientImp;  //Libreria WebSocket
@@ -28,6 +31,11 @@ import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.Timer;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class ServerActivity extends AppCompatActivity implements WebSocketReceiver {
 
     private  String port = "8080";
@@ -38,7 +46,6 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
     private WebSocketServerImp wsServer;
     private WebSocketClientImp wsClient;
     private InetSocketAddress inetSockAddress;
-
     private ImageView imageView;
     private Button btnSubmitImage, btnSendImage, btnCloseSession, btnShowLeft, btnShowRight;
     private TextView myIpTextView;
@@ -47,8 +54,8 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
 
     private final int MAX_WIDTH_IMAGE = 1400;
     private final int MAX_HEIGHT_IMAGE = 1600;
-
-
+    private int clientNumber = 0;
+    ApiService service = ApiAdapter.getApiService();
 
 
 
@@ -56,7 +63,18 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server);
+        Call reset = service.resetClientNumber();
+        reset.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
 
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
         myIpAddress = connectMethods.FindMyIpAddress(this);
         btnSendImage = findViewById(R.id.send_data);
         btnSubmitImage = findViewById(R.id.submit_image);
@@ -64,6 +82,7 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         imageView = findViewById(R.id.imageViewServer);
         myIpTextView = findViewById(R.id.text_ip_client);
         myIpTextView.setText(myIpAddress);
+
         //Picasso.get (). load (R.drawable.mapa) .into (imageView);
 
 
@@ -98,11 +117,24 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
         wsClient = new WebSocketClientImp(connectMethods.GetUriServer(myIpAddress, port), this);
         wsClient.connect();
         Toast.makeText(getApplicationContext(),"Cliente Conectado",Toast.LENGTH_SHORT).show();
+        Call call = service.affiliateClientAndGetNumber();
 
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.body() != null) {
+                    ClientNumber client  = (ClientNumber) response.body();
+                    clientNumber = client.getClientNumber();
+                    System.out.println(clientNumber);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
         //contador de clientes
-
-
-
     }
 
     private void SetWServerAndStart() {
@@ -121,10 +153,11 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
             Toast.makeText(getApplicationContext(), "Enviando....", Toast.LENGTH_SHORT).show();
             String base64Image = checkImageResolution(imageView);
             wsClient.send(base64Image);
+            System.out.println("client Number " + clientNumber);
             //Toast.makeText(getApplicationContext(), "Imagen Enviada", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, HalfImageActivity.class);
             intent.putExtra("Base64Image", ImageUtility.convertToBytesArray(senderImage));
-
+            intent.putExtra("clientNumber", clientNumber);
             startActivity(intent);
         } else {
            Toast.makeText(getApplicationContext(),"Accion Cancelada",Toast.LENGTH_SHORT).show();
