@@ -127,13 +127,11 @@ public class HalfImageActivity extends AppCompatActivity {
                     }
 
                 },0,6000);
-
                 //time_count.setText(timeC.timeCount);
                 //if(timeC.getValor() < 6000 ) {
                     //Pajaro();
                     //timeC.client = true;
                 //}
-
             }
         });
 

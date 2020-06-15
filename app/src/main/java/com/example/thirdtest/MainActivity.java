@@ -1,6 +1,10 @@
 package com.example.thirdtest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.app.mg.connectionlibraryandroid.Implementations.ConnectMethods;
@@ -18,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 //aqui
@@ -28,8 +33,11 @@ public class MainActivity extends AppCompatActivity {
     ConnectMethods connectMethods = new ConnectMethods();
     TextView myIpTextView;
     String myIpAddress;
-
     Button btnClient, btnServer;
+    String port;
+    ConnectivityManager cm;
+    boolean isConnected = false;
+    boolean isWiFiConnected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,23 +50,52 @@ public class MainActivity extends AppCompatActivity {
 
         myIpAddress = connectMethods.FindMyIpAddress(this);
         myIpTextView.setText(myIpAddress);
-
-
-
+        port = "8080";
         btnClient = findViewById(R.id.btn_client);
         btnServer = findViewById(R.id.btn_server);
 
+        cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         btnServer.setOnClickListener(view -> {
+            isConnectedToWiFi();
+            if (isConnectedToWiFi()){
+                if (port.length() == 4) {
+                    Intent intent = new Intent(view.getContext(), ServerActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se pudo iniciar el servidor correctamente", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Por favor, conéctese a una red", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(view.getContext(), ServerActivity.class);
-            startActivity(intent);
-
+            }
         });
 
         btnClient.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), FindServerActivity.class);
-            startActivity(intent);
+            if (isConnectedToWiFi() == true) {
+                Intent intent = new Intent(view.getContext(), FindServerActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Por favor, conéctese a una red", Toast.LENGTH_SHORT).show();
+            }
         });
+    }
+
+    public boolean isConnectedToWiFi() {
+        for (Network network : cm.getAllNetworks()) {
+            NetworkInfo networkInfo = cm.getNetworkInfo(network);
+            isConnected = networkInfo.isConnected();
+            if (isConnected) {
+                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    isWiFiConnected = networkInfo.isConnected();
+                } else {
+                    isWiFiConnected = false;
+                }
+            }
+        }
+        if (isWiFiConnected) {
+            return true;
+        }
+        return false;
     }
 
     @Override

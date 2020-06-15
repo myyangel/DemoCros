@@ -187,11 +187,11 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
     @Override
     public void onWebSocketMessage(String message) {
 
-
     }
 
     @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {
-
+        handler.post((Runnable) () -> Toast.makeText(this, "El servidor se apagó correctamente", Toast.LENGTH_LONG).show());
+        finish();
     }
 }

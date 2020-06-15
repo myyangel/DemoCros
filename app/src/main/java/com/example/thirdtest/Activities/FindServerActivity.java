@@ -28,7 +28,7 @@ public class FindServerActivity extends AppCompatActivity {
 
         editIp = findViewById(R.id.editIpServer);
         btnFindServer = findViewById(R.id.btnFindServer);
-      //  radioGroup = findViewById(R.id.radioGroup);
+        //  radioGroup = findViewById(R.id.radioGroup);
 
         btnFindServer.setOnClickListener(view -> {
             String ipServer =  editIp.getText().toString();
@@ -39,11 +39,13 @@ public class FindServerActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(getApplicationContext(),"Ingrese una Ip valida",Toast.LENGTH_SHORT).show();
+                if(ipServer.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Ingrese una dirección IP a buscar",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Ingrese una IP válida",Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-
     }
 
  /*   public void  checkButton(View v){
