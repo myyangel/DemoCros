@@ -85,7 +85,7 @@ public class HalfImageActivity extends AppCompatActivity {
         //Codigo Pajaro
         imgBird = (ImageView)findViewById(R.id.imageBird);//Pajarito
         WindowManager wm = getWindowManager();
-        Display disp =wm.getDefaultDisplay();
+        Display disp = wm.getDefaultDisplay();
         Point size = new Point();
         disp.getSize(size);
         screenWidth = size.x;
@@ -106,7 +106,6 @@ public class HalfImageActivity extends AppCompatActivity {
 
 
         btStart.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 //timeC.starTime();
@@ -123,8 +122,11 @@ public class HalfImageActivity extends AppCompatActivity {
                                 //timeC.client = true;
                             }
                         });
+                        imgBird.setX(-300.0f);
+                        imgBird.setY(900.0f);
                     }
-                },0,3000);
+
+                },0,6000);
 
                 //time_count.setText(timeC.timeCount);
                 //if(timeC.getValor() < 6000 ) {
@@ -149,7 +151,6 @@ public class HalfImageActivity extends AppCompatActivity {
         AnimatorSet animateSetX = new AnimatorSet();
         animateSetX.play(animateX);
         animateSetX.start();
-
 
     }
 

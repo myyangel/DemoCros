@@ -72,7 +72,7 @@ public class ImageUtility {
     public static Bitmap cropImage(Bitmap image, int side){
         int width = image.getWidth();
         int height = image.getHeight();
-        int newWidth = width / 3; // numCiente
+        int newWidth = width / 2; // numCiente
        //int newHeight = height / 2;
 
         // recreate the new Bitmap

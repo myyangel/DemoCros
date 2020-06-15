@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.Constraints;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -110,6 +112,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
         imgBird.setBackgroundResource(R.drawable.astro_animation);
         astro = (AnimationDrawable)imgBird.getBackground();
 
+
         //Dibujar pajaro
         imgBird.setX(-300.0f);
         imgBird.setY(900.0f);
@@ -142,6 +145,7 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     public void Pajaro () {
         animateX = ObjectAnimator.ofFloat(imgBird, "x", 1100f);
         animateX.setDuration(animateDuration);
+        animateX.setRepeatMode(ValueAnimator.RESTART);
         AnimatorSet animateSetX = new AnimatorSet();
         animateSetX.play(animateX);
         animateSetX.start();
@@ -186,18 +190,20 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
             //Toast.makeText(context, "Llegó la imagen", Toast.LENGTH_LONG).show();
         //});
 
-        time.schedule(new TimerTask() {
+        time.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         astro.start();
                         Pajaro();
                     }
-                });
+                }, 2000);
+                imgBird.setX(-300.0f);
+                imgBird.setY(900.0f);
             }
-        },6000,2000);
+        },3000 , 6000);
     }
 
 
