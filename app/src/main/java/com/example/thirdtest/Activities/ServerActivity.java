@@ -121,13 +121,12 @@ public class ServerActivity extends AppCompatActivity implements WebSocketReceiv
             Toast.makeText(getApplicationContext(), "Enviando....", Toast.LENGTH_SHORT).show();
             String base64Image = checkImageResolution(imageView);
             wsClient.send(base64Image);
-            //Toast.makeText(getApplicationContext(), "Imagen Enviada", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, HalfImageActivity.class);
             intent.putExtra("Base64Image", ImageUtility.convertToBytesArray(senderImage));
-
+            Toast.makeText(getApplicationContext(), "Imagen Enviada", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         } else {
-           Toast.makeText(getApplicationContext(),"Accion Cancelada",Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(),"Por favor, seleccione una imagen",Toast.LENGTH_SHORT).show();
         }
 
 

@@ -211,10 +211,11 @@ public class ClientActivity extends AppCompatActivity implements WebSocketReceiv
     @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {
         if(code == 1001 && remote){
-            handler.post((Runnable) () -> Toast.makeText(this, "Se desconectó del servidor", Toast.LENGTH_LONG).show());
+            handler.post((Runnable) () -> Toast.makeText(this, "El server se ha cerrado", Toast.LENGTH_LONG).show());
             finish();
         }
     }
+
     TouchTypeDetector.TouchTypListener touchTypListener=new TouchTypeDetector.TouchTypListener() {
         @Override public void onTwoFingerSingleTap() {
         }

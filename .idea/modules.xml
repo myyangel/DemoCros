@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DemoCros.iml" filepath="$PROJECT_DIR$/.idea/modules/DemoCros.iml" group="DemoCros" />
       <module fileurl="file://$PROJECT_DIR$/DemoCrossDevicePinch.iml" filepath="$PROJECT_DIR$/DemoCrossDevicePinch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop-DemoCros.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop-DemoCros.iml" group="DemoCros" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="DemoCros/app" />
     </modules>
   </component>
